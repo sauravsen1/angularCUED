@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Angularjs CRUD app</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body ng-app="crudApp" ng-controller="crudCtrl">
+
+	<div class="container">
+	<div style="margin-bottom: 30px;">
+		<button type="button" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#myModal">Create New User</button>
+		  
+		<h2>All User</h2>
+	</div><!-- /.all-user -->
+			
+		<div class="alert alert-info alert-dismissable" ng-if="message">
+			<a href="#" class="close" ng-click="clearMessage()">×</a>
+			{{message}}
+		</div>
+		<table class="table">
+		    <thead>
+		      <tr>
+		        <th>Index</th>
+		        <th>Username</th>
+		        <th>Email</th>
+		        <th>Edit</th>
+		        <th>Delete</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat="user in users">
+		      	<td>{{$index+1}}</td>
+		        <td>{{user.userName}}</td>
+		        <td>{{user.email}}</td>
+		        <td><button class="btn btn-info" data-toggle="modal" data-target="#myModaledit" ng-click="selectUser(user)">Edit</button></td>
+		        <td><button class="btn btn-danger" data-toggle="modal" data-target="#myModaldelete" ng-click="selectUser(user)">Delete</button></td>
+		      </tr>   
+		    </tbody>
+		  </table>
+	</div>
+
+
+
+
+
+
+
+
+	  <!-- Modal -->
+	  <div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">New user Registration</h4>
+	        </div>
+	        <div class="modal-body">
+				<form class="form-horizontal" action="">
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="email">Username:</label>
+				  <div class="col-sm-10">
+				    <input type="text" class="form-control" ng-model="newUser.userName">
+				  </div>
+				</div>
+ 
+				<div class="form-group">
+				  <label class="control-label col-sm-2" >Email:</label>
+				  <div class="col-sm-10">
+				    <input type="text" class="form-control" ng-model="newUser.email">
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="email">Full Name:</label>
+				  <div class="col-sm-10">
+				    <input type="text" class="form-control" ng-model="newUser.fullName">
+				  </div>
+				</div>
+				<div class="form-group">        
+				  <div class="col-sm-offset-2 col-sm-10">
+				    <button type="button" class="btn btn-default" ng-click="saveUser()" data-dismiss="modal">Save</button>
+				  </div>
+				</div>
+				</form>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- /.user-modal -->
+
+	  <div class="modal fade" id="myModaledit" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Edit the user</h4>
+	        </div>
+	        <div class="modal-body">
+				<form class="form-horizontal" action="">
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="email">Username:</label>
+				  <div class="col-sm-10">
+				    <input type="text" class="form-control" ng-model="clickedUser.userName">
+				  </div>
+				</div>
+
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="email">Email:</label>
+				  <div class="col-sm-10">
+				    <input type="text" class="form-control" ng-model="clickedUser.email">
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label class="control-label col-sm-2" for="email">Full Name:</label>
+				  <div class="col-sm-10">
+				    <input type="text" class="form-control" ng-model="clickedUser.fullName">
+				  </div>
+				</div>
+				<div class="form-group">        
+				  <div class="col-sm-offset-2 col-sm-10">
+				    <button type="button" class="btn btn-default" ng-click="updateUser()"  data-dismiss="modal">Save</button>
+				  </div>
+				</div>
+				</form>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- /.user-modal edit -->
+
+	  <div class="modal fade" id="myModaldelete" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Are you sure?</h4>
+	        </div>
+	        <div class="modal-body">
+				<strong style="color:red">After perform this task, this user totally lose it's all document and everythin... ... be careful! <br> You are going to delete: {{clickedUser.fullName}}</strong>	
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="deleteUser()">Yes</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div><!-- /.user-modal delete -->
+
+
+	</div><!-- /.container -->
+	
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
+<script src="js/custom.js"></script>	
+</body>
+</html>
